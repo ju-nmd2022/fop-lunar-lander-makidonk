@@ -12,6 +12,6 @@
   {
     "kind": 2,
     "language": "javascript",
-    "value": "function setup() {\r\n    window.createCanvas(600, 600);\r\n   background(0,0,0);\r\n  }\r\n\r\n let stars = [];\r\n\r\n for (i = 0, i < 50 , i++ ) {\r\n    const star = {\r\n        x: Math.floor(Math.random() * width),\r\n        y: Math.floor(Math.random() * height),\r\n    }\r\n }\r\n\r\n function draw() {\r\n    ellipse(star.x, star.y, 3);\r\n }\r\n\r\n  "
+    "value": "function setup() {\r\n    window.createCanvas(600, 600);\r\n   background(0,0,0);\r\n  }\r\n\r\n let stars = [];\r\n\r\n for (i = 0, i < 50 , i++ ) {\r\n    const star = {\r\n        x: Math.floor(Math.random() * width),\r\n        y: Math.floor(Math.random() * height),\r\n    }\r\n }\r\n\r\n\r\n function draw() {\r\n    ellipse(star.x, star.y, 3);\r\n }\r\n\r\n\r\n  "
   }
 ]
