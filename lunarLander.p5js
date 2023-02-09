@@ -2,16 +2,21 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## planning\r\n- background\r\n- ufo\r\n- gravity down but stopping at the ground\r\n- moving up when space is pressed + fire showing\r\n- asteroids\r\n- "
+    "value": "## planning\r\n- background\r\n- make the bee flying\r\n- make the bee falling\r\n- make the flower at random x\r\n- gravity down but stopping if hitting the flower\r\n- moving up when space is pressed + different bee showing\r\n- make the leaves\r\n- "
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Background\r\n- stars and the earth\r\n- ground with dark circles as holes"
+    "value": "## Background\r\n- "
   },
   {
     "kind": 2,
     "language": "javascript",
-    "value": "function setup() {\r\n    window.createCanvas(600, 600);\r\n   background(0,0,0);\r\n  }\r\n\r\n let stars = [];\r\n\r\n for (i = 0, i < 50 , i++ ) {\r\n    const star = {\r\n        x: Math.floor(Math.random() * width),\r\n        y: Math.floor(Math.random() * height),\r\n    }\r\n }\r\n\r\n\r\n function draw() {\r\n    ellipse(star.x, star.y, 3);\r\n }\r\n\r\n\r\n  "
+    "value": "function setup() {\r\n    window.createCanvas(600, 400);\r\n  background(1,1,1);\r\n  }\r\n\r\n\r\n"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Bee\r\n"
   }
 ]
