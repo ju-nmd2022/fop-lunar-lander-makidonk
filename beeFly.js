@@ -2,15 +2,15 @@ function setup() {
   createCanvas(550, 550);
 }
 
-let beeIsFlying = false;
 let bee = {
-  x: 400,
-  y: 300,
+  x: 550 / 2,
+  y: 100,
   r: 0,
 };
-let gravity = 1;
-let acceleration = 0;
-let flyingPower = 1.5;
+let beeIsFlying = false;
+let gravity = 0.05;
+let acceleration = 0.005;
+let flyingPower = 0.02;
 
 function beeFunction() {
   //wings
@@ -82,7 +82,7 @@ function beeFunction() {
 
   if (beeIsFlying === true) {
     strokeWeight(0.8);
-    stroke(0, 0, 0);
+    stroke(0, 0, 0, 140);
     line(bee.x + 12, bee.y - 6, bee.x + 4, bee.y - 2);
     line(bee.x + 12, bee.y + 2, bee.x + 4, bee.y - 2);
     line(bee.x + 12, bee.y - 2, bee.x + 4, bee.y - 2);
@@ -91,6 +91,8 @@ function beeFunction() {
     line(bee.x - 12, bee.y + 2, bee.x - 4, bee.y - 2);
     line(bee.x - 12, bee.y - 2, bee.x - 4, bee.y - 2);
   } else {
+    stroke(0, 0, 0, 140);
+    strokeWeight(0.3);
     fill(255, 255, 255);
     ellipse(bee.x - 9, bee.y, 12);
     ellipse(bee.x + 9, bee.y, 12);
@@ -111,14 +113,11 @@ function beeFunction() {
 function flying() {
   if (mouseIsPressed === true) {
     beeIsFlying = true;
-
-    gravity = 0.5;
-    bee.y = bee.y - flyingPower;
-    flyingPower = -gravity * 0.5;
+    acceleration = 0.005;
+    gravity = gravity - flyingPower;
 
     bee.r = bee.r + 1 * sin(frameCount * 0.25);
   } else {
-    flyingPower = 0.5;
     beeIsFlying = false;
     bee.r = 0;
   }
@@ -126,7 +125,43 @@ function flying() {
 
 function falling() {
   bee.y = bee.y + gravity;
-  gravity = gravity + 0.01;
+  gravity = gravity + acceleration;
+  acceleration = acceleration * 1.001;
+}
+
+// fixing the leaves
+let leavesRight = [];
+let leavesLeft = [];
+
+for (let i = 0; i < 10; i++) {
+  //creating random start positions for the leaves on the right side
+  const leafRight = {
+    x: Math.random() * 800 + 550,
+    y: Math.random() * 400 + 50,
+  };
+  leavesRight.push(leafRight);
+}
+for (let i = 0; i < 10; i++) {
+  // same for the left side
+  const leafLeft = {
+    x: Math.random() * 800 - 850,
+    y: Math.random() * 400 + 50,
+  };
+  leavesLeft.push(leafLeft);
+}
+
+function obstacles() {
+  //the leaves design and movement
+  for (let leafRight of leavesRight) {
+    fill(255, 255, 255);
+    ellipse(leafRight.x, leafRight.y, 30);
+    leafRight.x = leafRight.x - 1;
+  }
+  for (let leafLeft of leavesLeft) {
+    fill(255, 255, 255);
+    ellipse(leafLeft.x, leafLeft.y, 30);
+    leafLeft.x = leafLeft.x + 1;
+  }
 }
 
 function draw() {
@@ -134,4 +169,5 @@ function draw() {
   beeFunction();
   flying();
   falling();
+  obstacles();
 }
