@@ -7,10 +7,14 @@ let bee = {
   y: 100,
   r: 0,
 };
+
+let gameIsActive = true;
+
 let beeIsFlying = false;
 let gravity = 0.05;
 let acceleration = 0.005;
 let flyingPower = 0.02;
+let energyStored = 100;
 
 function beeFunction() {
   //wings
@@ -73,20 +77,19 @@ function beeFunction() {
     bee.x - 10,
     bee.y + 20
   );
+
   //body
   noStroke();
   fill(255, 255, 100);
   ellipse(bee.x, bee.y, 30);
 
   //eyes
-
   if (beeIsFlying === true) {
     strokeWeight(0.8);
     stroke(0, 0, 0, 140);
     line(bee.x + 12, bee.y - 6, bee.x + 4, bee.y - 2);
     line(bee.x + 12, bee.y + 2, bee.x + 4, bee.y - 2);
     line(bee.x + 12, bee.y - 2, bee.x + 4, bee.y - 2);
-
     line(bee.x - 12, bee.y - 6, bee.x - 4, bee.y - 2);
     line(bee.x - 12, bee.y + 2, bee.x - 4, bee.y - 2);
     line(bee.x - 12, bee.y - 2, bee.x - 4, bee.y - 2);
@@ -103,11 +106,31 @@ function beeFunction() {
   }
 
   //cheeks
-
   noStroke();
   fill("pink");
   ellipse(bee.x - 9, bee.y + 6, 7, 4);
   ellipse(bee.x + 9, bee.y + 6, 7, 4);
+}
+
+function flowerFunction() {
+  noStroke();
+  fill("pink");
+  ellipse(width / 2, 505, 40, 40);
+  ellipse(width / 2 - 40, 507, 50, 40);
+  ellipse(width / 2 + 40, 507, 50, 40);
+  ellipse(width / 2 + 70, 515, 70, 30);
+  ellipse(width / 2 - 70, 515, 70, 30);
+  fill("orange");
+  ellipse(width / 2, 520, 100, 30);
+  fill("pink");
+  ellipse(width / 2 - 50, 535, 70, 40);
+  ellipse(width / 2 + 50, 535, 70, 40);
+  ellipse(width / 2, 545, 90, 40);
+}
+
+function showText() {
+  textSize(20);
+  text("energy left = " + energyStored, 30, 50);
 }
 
 function flying() {
@@ -115,11 +138,16 @@ function flying() {
     beeIsFlying = true;
     acceleration = 0.005;
     gravity = gravity - flyingPower;
-
     bee.r = bee.r + 1 * sin(frameCount * 0.25);
+
+    energyStored = energyStored - 1;
   } else {
     beeIsFlying = false;
     bee.r = 0;
+  }
+  if (energyStored < 0) {
+    gameIsActive = false;
+    console.log("energy empty");
   }
 }
 
@@ -130,28 +158,56 @@ function falling() {
 }
 
 // fixing the leaves
+let level = 5;
 let leavesRight = [];
 let leavesLeft = [];
+let leafRight;
+let leafLeft;
 
-for (let i = 0; i < 10; i++) {
-  //creating random start positions for the leaves on the right side
+//creating random start positions for the leaves on the right side
+for (let i = 0; i < level * 6; i++) {
   const leafRight = {
-    x: Math.random() * 800 + 550,
+    x: Math.random() * 1000 + 420,
     y: Math.random() * 400 + 50,
   };
   leavesRight.push(leafRight);
 }
-for (let i = 0; i < 10; i++) {
-  // same for the left side
+
+// same for the left side
+for (let i = 0; i < level * 6; i++) {
   const leafLeft = {
-    x: Math.random() * 800 - 850,
+    x: Math.random() * 1000 - 950,
     y: Math.random() * 400 + 50,
   };
   leavesLeft.push(leafLeft);
 }
 
+function checkDistance() {
+  for (i = 0; i < leavesRight.length; i++) {
+    let distanceRight = Math.sqrt(
+      Math.pow(bee.x - leavesRight[i].x, 2) +
+        Math.pow(bee.y - leavesRight[i].y, 2)
+    );
+    if (distanceRight <= 30) {
+      console.log("stop");
+      gameIsActive = false;
+    }
+  }
+
+  for (i = 0; i < leavesLeft.length; i++) {
+    let distanceLeft = Math.sqrt(
+      Math.pow(bee.x - leavesLeft[i].x, 2) +
+        Math.pow(bee.y - leavesLeft[i].y, 2)
+    );
+    if (distanceLeft <= 30) {
+      console.log("stop");
+      gameIsActive = false;
+    }
+  }
+}
+
+//the leaves design and movement
 function obstacles() {
-  //the leaves design and movement
   for (let leafRight of leavesRight) {
     fill(255, 255, 255);
     ellipse(leafRight.x, leafRight.y, 30);
@@ -164,10 +220,26 @@ function obstacles() {
   }
 }
 
+//velocity when touching the flower
+function velocity() {
+  if (bee.y > 495) {
+    if (gravity > 0.3) {
+      console.log("crash");
+    } else {
+      console.log("win");
+    }
+    gravity = 0;
+  }
+}
+
 function draw() {
   background(50, 200, 255);
+  flowerFunction();
   beeFunction();
+  showText();
   flying();
   falling();
   obstacles();
+  checkDistance();
+  velocity();
 }
