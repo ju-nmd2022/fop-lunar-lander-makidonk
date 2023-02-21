@@ -8,7 +8,8 @@ let bee = {
   r: 0,
 };
 
-let gameIsActive = true;
+//gamestate 1 = startmenu, 2= playing, 3= fail
+let gameState = 1;
 
 let beeIsFlying = false;
 let gravity = 0.05;
@@ -133,7 +134,9 @@ function showText() {
   text("energy left = " + energyStored, 30, 50);
 }
 
+//bee flying/falling
 function flying() {
+  //flying
   if (mouseIsPressed === true) {
     beeIsFlying = true;
     acceleration = 0.005;
@@ -146,12 +149,10 @@ function flying() {
     bee.r = 0;
   }
   if (energyStored < 0) {
-    gameIsActive = false;
+    gameState = 3;
     console.log("energy empty");
   }
-}
-
-function falling() {
+  //falling (gravity)
   bee.y = bee.y + gravity;
   gravity = gravity + acceleration;
   acceleration = acceleration * 1.001;
@@ -165,7 +166,7 @@ let leafRight;
 let leafLeft;
 
 //creating random start positions for the leaves on the right side
-for (let i = 0; i < level * 6; i++) {
+for (let i = 0; i < level * 4; i++) {
   const leafRight = {
     x: Math.random() * 1000 + 420,
     y: Math.random() * 400 + 50,
@@ -174,7 +175,7 @@ for (let i = 0; i < level * 6; i++) {
 }
 
 // same for the left side
-for (let i = 0; i < level * 6; i++) {
+for (let i = 0; i < level * 4; i++) {
   const leafLeft = {
     x: Math.random() * 1000 - 950,
     y: Math.random() * 400 + 50,
@@ -190,7 +191,7 @@ function checkDistance() {
     );
     if (distanceRight <= 30) {
       console.log("stop");
-      gameIsActive = false;
+      gameState = 3;
     }
   }
 
@@ -201,7 +202,7 @@ function checkDistance() {
     );
     if (distanceLeft <= 30) {
       console.log("stop");
-      gameIsActive = false;
+      gameState = 3;
     }
   }
 }
@@ -232,14 +233,41 @@ function velocity() {
   }
 }
 
+//making the start menu
+function startmenu() {
+  noStroke();
+  fill("lightblue");
+  rect(0, 0, width, height);
+  fill(255, 255, 255);
+  textSize(30);
+  text("Choose your difficulty", 120, 100);
+  fill("lightpink");
+  rect(150, 175, 200, 40);
+  fill("white");
+  text("start game", 180, 205);
+  mouseClicked();
+}
+
+function mouseClicked() {
+  if (mouseX > 150 && mouseX < 150 + 200 && mouseY > 175 && mouseY < 174 + 40) {
+    gamestate = 2;
+  }
+}
+
 function draw() {
-  background(50, 200, 255);
-  flowerFunction();
-  beeFunction();
-  showText();
-  flying();
-  falling();
-  obstacles();
-  checkDistance();
-  velocity();
+  if (gameState === 2) {
+    background(50, 200, 255);
+    flowerFunction();
+    beeFunction();
+    showText();
+    flying();
+
+    obstacles();
+    checkDistance();
+    velocity();
+  } else if (gameState === 1) {
+    startmenu();
+  }
+
+  console.log(gameState);
 }
