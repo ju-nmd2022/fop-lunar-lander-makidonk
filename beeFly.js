@@ -15,7 +15,7 @@ let beeIsFlying = false;
 let gravity = 0.05;
 let acceleration = 0.005;
 let flyingPower = 0.02;
-let energyStored = 100;
+let energyStored = 500;
 
 function beeFunction() {
   //wings
@@ -159,7 +159,7 @@ function flying() {
 }
 
 // fixing the leaves
-let level = 5;
+let level = 1;
 let leavesRight = [];
 let leavesLeft = [];
 let leafRight;
@@ -226,8 +226,10 @@ function velocity() {
   if (bee.y > 495) {
     if (gravity > 0.3) {
       console.log("crash");
+      gameState = 3;
     } else {
       console.log("win");
+      gameState = 4;
     }
     gravity = 0;
   }
@@ -249,18 +251,26 @@ function startmenu() {
 }
 
 function mouseClicked() {
-  if (
-    gameState === 1 &&
-    mouseX > 150 &&
-    mouseX < 150 + 200 &&
-    mouseY > 175 &&
-    mouseY < 174 + 40
-  ) {
-    gameState = 2;
-    console.log(gameState);
-    
+  if (mouseIsPressed) {
+    if (
+      gameState === 1 &&
+      mouseX > 150 &&
+      mouseX < 150 + 200 &&
+      mouseY > 175 &&
+      mouseY < 174 + 40
+    ) {
+      gameState = 2;
+      console.log(gameState);
+    }
   }
 }
+
+// fail(){
+
+// }
+// win(){
+
+// }
 
 function draw() {
   if (gameState === 2) {
@@ -269,7 +279,6 @@ function draw() {
     beeFunction();
     showText();
     flying();
-
     obstacles();
     checkDistance();
     velocity();
