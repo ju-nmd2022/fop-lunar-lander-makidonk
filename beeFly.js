@@ -249,8 +249,16 @@ function startmenu() {
 }
 
 function mouseClicked() {
-  if (mouseX > 150 && mouseX < 150 + 200 && mouseY > 175 && mouseY < 174 + 40) {
-    gamestate = 2;
+  if (
+    gameState === 1 &&
+    mouseX > 150 &&
+    mouseX < 150 + 200 &&
+    mouseY > 175 &&
+    mouseY < 174 + 40
+  ) {
+    gameState = 2;
+    console.log(gameState);
+    
   }
 }
 
@@ -268,6 +276,4 @@ function draw() {
   } else if (gameState === 1) {
     startmenu();
   }
-
-  console.log(gameState);
 }
