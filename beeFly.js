@@ -131,7 +131,16 @@ function flowerFunction() {
 
 function showText() {
   textSize(20);
-  text("energy left = " + energyStored, 30, 50);
+  if (energyStored < 50) {
+    fill("red");
+  } else {
+    fill("pink");
+  }
+  text("Energy left = " + energyStored, 30, 50);
+  fill("pink");
+  text("Level", 460, 50);
+  textSize(50);
+  text(level, 465, 100);
 }
 
 //bee flying/falling
@@ -150,8 +159,8 @@ function flying() {
   }
   if (energyStored < 0) {
     gameState = 3;
-    console.log("energy empty");
   }
+
   //falling (gravity)
   bee.y = bee.y + gravity;
   gravity = gravity + acceleration;
@@ -166,23 +175,26 @@ let leafRight;
 let leafLeft;
 
 //creating random start positions for the leaves on the right side
-for (let i = 0; i < level * 4; i++) {
-  const leafRight = {
-    x: Math.random() * 1000 + 420,
-    y: Math.random() * 400 + 50,
-  };
-  leavesRight.push(leafRight);
+function pushLeaves() {
+  for (let i = 0; i < level * 4; i++) {
+    const leafRight = {
+      x: Math.random() * 1000 + 420,
+      y: Math.random() * 400 + 50,
+    };
+    leavesRight.push(leafRight);
+  }
+
+  // same for the left side
+  for (let i = 0; i < level * 4; i++) {
+    const leafLeft = {
+      x: Math.random() * 1000 - 950,
+      y: Math.random() * 400 + 50,
+    };
+    leavesLeft.push(leafLeft);
+  }
 }
 
-// same for the left side
-for (let i = 0; i < level * 4; i++) {
-  const leafLeft = {
-    x: Math.random() * 1000 - 950,
-    y: Math.random() * 400 + 50,
-  };
-  leavesLeft.push(leafLeft);
-}
-
+//check the distance to obstacles and screen limit
 function checkDistance() {
   for (i = 0; i < leavesRight.length; i++) {
     let distanceRight = Math.sqrt(
@@ -228,7 +240,6 @@ function velocity() {
       console.log("crash");
       gameState = 3;
     } else {
-      console.log("win");
       gameState = 4;
     }
     gravity = 0;
@@ -238,15 +249,41 @@ function velocity() {
 //making the start menu
 function startmenu() {
   noStroke();
-  fill("lightblue");
-  rect(0, 0, width, height);
-  fill(255, 255, 255);
+  fill("white");
   textSize(30);
-  text("Choose your difficulty", 120, 100);
+  textWrap(WORD);
+  text("Help the bee land smoothly and avoid the leaves", 100, 80, 400);
   fill("lightpink");
   rect(150, 175, 200, 40);
   fill("white");
   text("start game", 180, 205);
+  mouseClicked();
+}
+//win menu
+function win() {
+  noStroke();
+  fill("white");
+  textSize(70);
+  text("You won!", 130, 120);
+  fill("lightpink");
+  textSize(30);
+  rect(175, 175, 200, 40);
+  fill("white");
+  text("Next level", 210, 205);
+  mouseClicked();
+}
+//fail menu
+function fail() {
+  noStroke();
+  fill("white");
+  textSize(50);
+  textWrap(WORD);
+  text("The bee died because of you!", 100, 50, 400);
+  fill("lightpink");
+  textSize(30);
+  rect(175, 175, 200, 40);
+  fill("white");
+  text("Try again", 210, 205);
   mouseClicked();
 }
 
@@ -260,17 +297,55 @@ function mouseClicked() {
       mouseY < 174 + 40
     ) {
       gameState = 2;
-      console.log(gameState);
+
+      gameState = 2;
+      leavesRight = [];
+      leavesLeft = [];
+      beeIsFlying = false;
+      gravity = 0.05;
+      acceleration = 0.005;
+      flyingPower = 0.02;
+      energyStored = 500;
+      bee.x = 550 / 2;
+      bee.y = 100;
+      bee.r = 0;
+      leafRight;
+      leafLeft;
+      pushLeaves();
+    } else if (
+      gameState === 4 &&
+      mouseX > 175 &&
+      mouseX < 175 + 200 &&
+      mouseY > 175 &&
+      mouseY < 175 + 40
+    ) {
+      level = level + 1;
+      gameState = 2;
+      leavesRight = [];
+      leavesLeft = [];
+      beeIsFlying = false;
+      gravity = 0.05;
+      acceleration = 0.005;
+      flyingPower = 0.02;
+      energyStored = 500;
+      bee.x = 550 / 2;
+      bee.y = 100;
+      bee.r = 0;
+      leafRight;
+      leafLeft;
+      pushLeaves();
+    } else if (
+      gameState === 3 &&
+      mouseX > 175 &&
+      mouseX < 175 + 200 &&
+      mouseY > 175 &&
+      mouseY < 175 + 40
+    ) {
+      level = 1;
+      gameState = 1;
     }
   }
 }
-
-// fail(){
-
-// }
-// win(){
-
-// }
 
 function draw() {
   if (gameState === 2) {
@@ -283,6 +358,13 @@ function draw() {
     checkDistance();
     velocity();
   } else if (gameState === 1) {
+    background(50, 200, 255);
     startmenu();
+  } else if (gameState === 4) {
+    background(50, 200, 255);
+    win();
+  } else if (gameState === 3) {
+    background(50, 200, 255);
+    fail();
   }
 }
