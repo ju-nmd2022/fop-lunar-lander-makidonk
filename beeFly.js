@@ -129,36 +129,6 @@ function flowerFunction() {
   ellipse(width / 2, 545, 90, 40);
 }
 
-// function leavesFunction() {
-//   fill("white");
-//   ellipse(300, 200, 30);
-//   fill("lightgreen");
-//   beginShape();
-//   vertex(300 + 20, 200 - 15);
-//   bezierVertex(300 + 1, 200 - 17, 300 - 15, 200 - 20, 300 - 25, 200 + 15);
-//   bezierVertex(300 + 3, 200 + 17, 300 + 15, 200 + 20, 300 + 20, 200 - 15);
-//   endShape();
-//   strokeWeight(1.5);
-//   stroke("green");
-//   bezier(
-//     300 + 25,
-//     200 - 20,
-//     300 + 5,
-//     200 + 0,
-//     300 - 5,
-//     200 + 5,
-//     300 - 25,
-//     200 + 15
-//   );
-//   strokeWeight(1);
-//   line(300 - 3, 200 + 3, 300 - 10, 200 + 15);
-//   line(300 - 3, 200 + 3, 300 - 20, 200 - 0);
-//   line(300 + 5, 200 - 3, 300 + 3, 200 + 15);
-//   line(300 + 5, 200 - 3, 300 - 12, 200 - 10);
-//   line(300 + 13, 200 - 9, 300 + 15, 200 + 4);
-//   line(300 + 13, 200 - 9, 300 + 1, 200 - 16);
-// }
-
 function leavesFunction(leafX, leafY) {
   fill("white");
   ellipse(leafX, leafY, 30);
