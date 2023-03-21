@@ -8,7 +8,7 @@ let bee = {
   r: 0,
 };
 
-//gamestate 1 = startmenu, 2= playing, 3= fail
+//gamestate 1 = startmenu, 2= playing, 3= fail, 4= win
 let gameState = 1;
 
 let beeIsFlying = false;
