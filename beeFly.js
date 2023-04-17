@@ -131,6 +131,8 @@ function flowerFunction() {
 
 function leavesFunction(leafX, leafY) {
   fill("white");
+  strokeWeight(1.5);
+  stroke("green");
   ellipse(leafX, leafY, 30);
   fill("lightgreen");
   beginShape();
@@ -152,8 +154,7 @@ function leavesFunction(leafX, leafY) {
     leafY - 15
   );
   endShape();
-  strokeWeight(1.5);
-  stroke("green");
+  
   bezier(
     leafX + 25,
     leafY - 20,
