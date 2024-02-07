@@ -154,7 +154,7 @@ function leavesFunction(leafX, leafY) {
     leafY - 15
   );
   endShape();
-  
+
   bezier(
     leafX + 25,
     leafY - 20,
@@ -294,7 +294,7 @@ function startmenu() {
   noStroke();
   fill("white");
   textSize(30);
-  textWrap(WORD);
+  //textWrap(WORD);
   text("Help the bee land smoothly and avoid the leaves", 100, 80, 400);
   fill("lightpink");
   rect(150, 175, 200, 40);
@@ -320,7 +320,7 @@ function fail() {
   noStroke();
   fill("white");
   textSize(50);
-  textWrap(WORD);
+  //textWrap(WORD);
   text("The bee died because of you!", 100, 50, 400);
   fill("lightpink");
   textSize(30);
@@ -352,8 +352,8 @@ function mouseClicked() {
       bee.x = 550 / 2;
       bee.y = 100;
       bee.r = 0;
-      leafRight;
-      leafLeft;
+      //leafRight;
+      //leafLeft;
       pushLeaves();
     } else if (
       gameState === 4 &&
@@ -374,8 +374,8 @@ function mouseClicked() {
       bee.x = 550 / 2;
       bee.y = 100;
       bee.r = 0;
-      leafRight;
-      leafLeft;
+      //leafRight;
+      //leafLeft;
       pushLeaves();
     } else if (
       gameState === 3 &&
@@ -401,6 +401,7 @@ function draw() {
     //leavesFunction();
     checkDistance();
     velocity();
+    //mathilda();
   } else if (gameState === 1) {
     background(50, 200, 255);
     startmenu();
